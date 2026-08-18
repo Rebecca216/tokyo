@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>巧克力牛奶頭ㄍㄧ優沒剖行</title>
+  <meta name="description" content="2026/11/18 - 11/23 東京秋季直飛來回機票與機加酒價格比較觀察儀表板。整合 Trip.com、易遊網與各大航空公司官網，提供低於1.7萬機票與1.7-2.7萬中高評分交通便利機加酒智慧降價提醒。" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <div id="app" class="app-layout">
+    <!-- 背景流光與微波背景 -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- 頂部導覽列 Header -->
+    <header class="app-header">
+      <div class="header-container">
+        <div class="brand-group">
+          <div class="brand-badge">
+            <span class="icon">✈️</span>
+            <span>TOKYO FLY & STAY</span>
+          </div>
+          <h1 class="main-title">東京直飛機票與機加酒 <span class="highlight">價格觀察比較</span></h1>
+          <p class="date-badge">
+            <span class="pulse-dot"></span>
+            <span>目標行程：<strong>2026年 11/18 (三) ➔ 11/23 (一) [6天5夜]</strong></span>
+            <span class="divider">|</span>
+            <span>出發地：高雄 (KHH) / 桃園 (TPE) ➔ 東京成田 (NRT) / 羽田 (HND)</span>
+          </p>
+        </div>
+
+        <div class="header-actions">
+          <button id="btnOpenHotelMap" class="btn btn-secondary btn-icon" title="檢視東京飯店地圖分佈與周邊地鐵">
+            <span>🗺️ 飯店地圖總覽</span>
+          </button>
+          <button id="btnRefreshData" class="btn btn-secondary btn-icon" title="重新模擬跨平台報價連動">
+            <span class="spin-icon">🔄</span>
+            <span>重新連動報價</span>
+          </button>
+          <button id="btnOpenAlertSettings" class="btn btn-primary btn-glow">
+            <span>🔔 降價通知設定</span>
+            <span id="alertCountBadge" class="badge-pill">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 智慧降價提醒動態 Alert Banner -->
+    <section id="alertBanner" class="alert-banner card-glass">
+      <div class="banner-content">
+        <div class="banner-status">
+          <span class="status-icon">⚡</span>
+          <div>
+            <h3 class="banner-title" id="bannerTitle">降價監測系統啟動中</h3>
+            <p class="banner-desc" id="bannerDesc">自動追蹤來回機票 &lt; $17,000 及 機加酒 $17,000–$27,000 交通便利飯店</p>
+          </div>
+        </div>
+        <div class="banner-controls">
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleOnlyAlertHits">
+            <span class="slider"></span>
+            <span class="toggle-label">僅顯示符合通知特惠 (<span id="alertHitCount">0</span>)</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3日每日查詢最低價紀錄與漲跌走勢對比 (近3天) -->
+    <section class="daily-price-section card-glass">
+      <div class="section-header">
+        <h2 class="section-title">📊 3日每日查詢最低價紀錄與走勢 (3-Day Daily Lowest Price Tracker)</h2>
+        <span class="section-tip">自動記錄昨天、今天與預測日期的最低報價，掌握降價趨勢</span>
+      </div>
+
+      <div class="daily-price-grid" id="dailyLowestHistoryGrid">
+        <!-- JS 動態渲染近 3 天最低價紀錄 -->
+      </div>
+    </section>
+
+
+
+    <!-- 主內容區域 -->
+    <main class="main-container">
+      
+      <!-- 1. 航線 2x2 最低價格比較矩陣 (Matrix) -->
+      <section class="matrix-section">
+        <div class="section-header">
+          <h2 class="section-title">📊 航線與機場 2x2 最低報價矩陣 (KHH/TPE ↔ NRT/HND)</h2>
+          <span class="section-tip">最划算出發地與降落地一目瞭然</span>
+        </div>
+
+        <div class="matrix-grid">
+          <!-- 卡片 1: 高雄 ↔ 成田 -->
+          <div class="matrix-card" data-route="KHH-NRT">
+            <div class="matrix-card-header">
+              <div class="route-info">
+                <span class="route-tag khh">高雄小港 KHH</span>
+                <span class="arrow">➔</span>
+                <span class="route-tag nrt">東京成田 NRT</span>
+              </div>
+              <span class="sub-text">直飛熱門航線</span>
+            </div>
+            <div class="matrix-prices">
+              <div class="price-row">
+                <span class="label">✈️ 最低來回機票:</span>
+                <span class="val price-highlight" id="mat-khh-nrt-flight">NT$ --</span>
+              </div>
+              <div class="price-row">
+                <span class="label">🏨 最低機加酒5夜:</span>
+                <span class="val" id="mat-khh-nrt-pkg">NT$ --</span>
+              </div>
+            </div>
+            <button class="btn-link" onclick="quickFilterRoute('KHH', 'NRT')">篩選此航線 ➔</button>
+          </div>
+
+          <!-- 卡片 2: 高雄 ↔ 羽田 -->
+          <div class="matrix-card" data-route="KHH-HND">
+            <div class="matrix-card-header">
+              <div class="route-info">
+                <span class="route-tag khh">高雄小港 KHH</span>
+                <span class="arrow">➔</span>
+                <span class="route-tag hnd">東京羽田 HND</span>
+              </div>
+              <span class="sub-text">轉機/合作聯營</span>
+            </div>
+            <div class="matrix-prices">
+              <div class="price-row">
+                <span class="label">✈️ 最低來回機票:</span>
+                <span class="val price-highlight" id="mat-khh-hnd-flight">NT$ --</span>
+              </div>
+              <div class="price-row">
+                <span class="label">🏨 最低機加酒5夜:</span>
+                <span class="val" id="mat-khh-hnd-pkg">NT$ --</span>
+              </div>
+            </div>
+            <button class="btn-link" onclick="quickFilterRoute('KHH', 'HND')">篩選此航線 ➔</button>
+          </div>
+
+          <!-- 卡片 3: 桃園 ↔ 成田 -->
+          <div class="matrix-card" data-route="TPE-NRT">
+            <div class="matrix-card-header">
+              <div class="route-info">
+                <span class="route-tag tpe">桃園國際 TPE</span>
+                <span class="arrow">➔</span>
+                <span class="route-tag nrt">東京成田 NRT</span>
+              </div>
+              <span class="sub-text">航班密集度最高</span>
+            </div>
+            <div class="matrix-prices">
+              <div class="price-row">
+                <span class="label">✈️ 最低來回機票:</span>
+                <span class="val price-highlight" id="mat-tpe-nrt-flight">NT$ --</span>
+              </div>
+              <div class="price-row">
+                <span class="label">🏨 最低機加酒5夜:</span>
+                <span class="val" id="mat-tpe-nrt-pkg">NT$ --</span>
+              </div>
+            </div>
+            <button class="btn-link" onclick="quickFilterRoute('TPE', 'NRT')">篩選此航線 ➔</button>
+          </div>
+
+          <!-- 卡片 4: 桃園 ↔ 羽田 -->
+          <div class="matrix-card" data-route="TPE-HND">
+            <div class="matrix-card-header">
+              <div class="route-info">
+                <span class="route-tag tpe">桃園國際 TPE</span>
+                <span class="arrow">➔</span>
+                <span class="route-tag hnd">東京羽田 HND</span>
+              </div>
+              <span class="sub-text">直達市區首選</span>
+            </div>
+            <div class="matrix-prices">
+              <div class="price-row">
+                <span class="label">✈️ 最低來回機票:</span>
+                <span class="val price-highlight" id="mat-tpe-hnd-flight">NT$ --</span>
+              </div>
+              <div class="price-row">
+                <span class="label">🏨 最低機加酒5夜:</span>
+                <span class="val" id="mat-tpe-hnd-pkg">NT$ --</span>
+              </div>
+            </div>
+            <button class="btn-link" onclick="quickFilterRoute('TPE', 'HND')">篩選此航線 ➔</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. 多維度動態工具與篩選列 (Filter Controls Toolbar) -->
+      <section class="toolbar-section card-glass">
+        <div class="toolbar-top">
+          <!-- 關鍵字搜尋 -->
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="搜尋飯店名稱、區域（如：新宿、上野、銀座）、航空公司或平台..." />
+            <button id="btnClearSearch" class="btn-clear hidden">&times;</button>
+          </div>
+
+          <!-- 出發地選項 -->
+          <div class="filter-group">
+            <label>出發機場：</label>
+            <div class="pill-group" id="originPillGroup">
+              <button class="pill-btn active" data-val="ALL">全部出發地</button>
+              <button class="pill-btn" data-val="KHH">🛫 高雄 (KHH)</button>
+              <button class="pill-btn" data-val="TPE">🛫 桃園 (TPE)</button>
+            </div>
+          </div>
+
+          <!-- 目的地選項 -->
+          <div class="filter-group">
+            <label>東京到達機場：</label>
+            <div class="pill-group" id="destPillGroup">
+              <button class="pill-btn active" data-val="ALL">全部機場</button>
+              <button class="pill-btn" data-val="NRT">🛬 成田 (NRT)</button>
+              <button class="pill-btn" data-val="HND">🛬 羽田 (HND)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="toolbar-bottom">
+          <!-- 類型頁籤 -->
+          <div class="filter-group">
+            <label>方案種類：</label>
+            <div class="pill-group" id="typePillGroup">
+              <button class="pill-btn active" data-val="ALL">全部方案</button>
+              <button class="pill-btn" data-val="flight">✈️ 來回機票</button>
+              <button class="pill-btn" data-val="package">🏨 機加酒 (含住宿)</button>
+            </div>
+          </div>
+
+          <!-- 航空公司類型 -->
+          <div class="filter-group">
+            <label>航空種類：</label>
+            <select id="airlineTypeSelect" class="custom-select">
+              <option value="ALL">全部航空公司</option>
+              <option value="Airline">傳統航空 (含託運餐食)</option>
+              <option value="LCC">廉價航空 (LCC)</option>
+            </select>
+          </div>
+
+          <!-- 東京交通方便開關 -->
+          <div class="filter-group">
+            <label class="toggle-chip">
+              <input type="checkbox" id="chkConvenientLocationOnly">
+              <span class="chip-content">🚇 僅看交通方便區域 (JR/地鐵5分內)</span>
+            </label>
+          </div>
+
+          <!-- 排序選單 -->
+          <div class="filter-group sort-group">
+            <label>排序方式：</label>
+            <select id="sortSelect" class="custom-select">
+              <option value="price-asc">💰 價格：由低到高</option>
+              <option value="price-desc">💎 價格：由高到低</option>
+              <option value="rating-desc">⭐ 飯店評分：由高到低</option>
+              <option value="alert-first">⚡ 符合通知特惠優先</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 機票與機加酒 優惠清單展示區 (Deals Display Grid) -->
+      <section class="deals-section">
+        <div class="deals-header">
+          <h3 class="deals-title">
+            <span>東京優惠組合清單</span>
+            <span class="count-badge" id="dealCountText">共 0 筆方案</span>
+          </h3>
+          <div class="deals-actions">
+            <button id="btnToggleWatchlistDrawer" class="btn btn-outline">
+              <span>❤️ 口袋收藏清單 (<span id="favCount">0</span>)</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="dealsGrid" class="deals-grid">
+          <!-- JS 動態渲染優惠卡片 -->
+        </div>
+
+        <div id="noResultsView" class="no-results hidden">
+          <div class="no-results-icon">🔎</div>
+          <h3>找不到符合條件的方案</h3>
+          <p>請嘗試放寬篩選條件或重置過濾器</p>
+          <button id="btnResetFilters" class="btn btn-secondary">重置所有篩選器</button>
+        </div>
+      </section>
+
+      <!-- 4. 價格歷史趨勢與未來預測圖表 (Price Visualizer Chart) -->
+      <section class="chart-section card-glass">
+        <div class="chart-header">
+          <div>
+            <h2 class="section-title">📈 11/18-23 東京行程 價格歷史與趨勢波動 (Past 30 Days)</h2>
+            <p class="section-tip">紅線為機票 alert 降價門檻 ($17,000)，可觀察當前是否處於相對低點</p>
+          </div>
+          <div class="chart-legend">
+            <span class="legend-item"><span class="color-dot pkg"></span>機加酒均價</span>
+            <span class="legend-item"><span class="color-dot khh"></span>高雄出發機票</span>
+            <span class="legend-item"><span class="color-dot tpe"></span>桃園出發機票</span>
+          </div>
+        </div>
+
+        <div class="chart-wrapper">
+          <canvas id="priceTrendCanvas"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <!-- 口袋名單抽屜 (Watchlist Drawer) -->
+    <div id="watchlistDrawer" class="drawer-overlay hidden">
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <h3>❤️ 我的口袋收藏清單</h3>
+          <button id="btnCloseDrawer" class="btn-close">&times;</button>
+        </div>
+        <div id="drawerDealsList" class="drawer-body">
+          <!-- JS 動態渲染收藏方案 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 方案詳細資料彈窗 (Deal Detail Modal) -->
+    <div id="detailModal" class="modal-overlay hidden">
+      <div class="modal-card modal-large">
+        <button id="btnCloseDetailModal" class="btn-close">&times;</button>
+        
+        <div class="modal-body-wrapper" id="detailModalContent">
+          <!-- JS 動態生成詳細內容 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 東京飯店地圖總覽 Modal (Hotel Map Modal) -->
+    <div id="hotelMapModal" class="modal-overlay hidden">
+      <div class="modal-card modal-large">
+        <button id="btnCloseHotelMapModal" class="btn-close">&times;</button>
+        
+        <div class="modal-header-group">
+          <span class="modal-icon">🗺️</span>
+          <div>
+            <h3>東京飯店地圖分佈與地鐵導航總覽</h3>
+            <p style="font-size:0.85rem; color:#64748b;">快查各大機加酒精選飯店位置、步行地鐵站距離與 Google Maps 導航</p>
+          </div>
+        </div>
+
+        <div id="hotelMapModalList" style="display:flex; flex-direction:column; gap:14px; max-height:65vh; overflow-y:auto; padding-right:4px;">
+          <!-- JS 動態渲染飯店地圖清單 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 降價通知設定 Modal (Alert Settings Modal) -->
+    <div id="alertModal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <button id="btnCloseAlertModal" class="btn-close">&times;</button>
+        
+        <div class="modal-header-group">
+          <span class="modal-icon">🔔</span>
+          <h3>智慧降價通知與警示設定</h3>
+        </div>
+
+        <form id="alertConfigForm" class="alert-form">
+          <div class="form-group">
+            <label for="cfgFlightMax">✈️ 來回機票通知門檻 (NT$)：</label>
+            <div class="input-with-hint">
+              <input type="number" id="cfgFlightMax" value="17000" step="500" min="8000" max="30000" required />
+              <span class="hint">當機票低於此價格時發出通知 (預設 $17,000)</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>🏨 機加酒通知價格區間 (NT$)：</label>
+            <div class="range-inputs">
+              <input type="number" id="cfgPackageMin" value="17000" step="500" min="10000" max="40000" required />
+              <span>至</span>
+              <input type="number" id="cfgPackageMax" value="27000" step="500" min="15000" max="50000" required />
+            </div>
+            <span class="hint">預設落在 $17,000 ~ $27,000 區間</span>
+          </div>
+
+          <div class="form-group">
+            <label for="cfgPackageRating">⭐ 機加酒飯店最低評分門檻：</label>
+            <div class="range-with-val">
+              <input type="range" id="cfgPackageRating" min="6.0" max="9.5" step="0.1" value="7.5" />
+              <span id="ratingValText" class="val-badge">7.5 分 (中等以上)</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="toggle-switch-inline">
+              <input type="checkbox" id="cfgRequireConvenient" checked>
+              <span class="slider"></span>
+              <span>🚇 機加酒僅限「交通方便區域」(捷運/JR 5分鐘內)</span>
+            </label>
+          </div>
+
+          <hr class="form-divider" />
+
+          <div class="form-group">
+            <label>📡 桌面瀏覽器推播權限：</label>
+            <button type="button" id="btnRequestNotification" class="btn btn-secondary btn-full">
+              <span>🔔 啟用桌面推播通知</span>
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label for="cfgLineToken">💬 LINE Notify / Webhook Token (選填模擬)：</label>
+            <input type="text" id="cfgLineToken" placeholder="貼上 LINE Token 模擬接收降價簡訊" />
+          </div>
+
+          <div class="modal-form-actions">
+            <button type="submit" class="btn btn-primary btn-glow">儲存設定並套用</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 頁腳 -->
+    <footer class="app-footer">
+      <p>💡 提示：本頁面針對 2026/11/18 - 11/23 行程自動聯動 Trip.com、易遊網、Agoda、Klook 及航空公司官網最新報價。</p>
+    </footer>
+  </div>
+
+  <script src="./src/js/app.js"></script>
+</body>
+</html>
