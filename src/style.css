@@ -931,6 +931,7 @@ body {
   max-width: 760px;
   max-height: 90vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* 加入優化手機滾動 */
 }
 
 .btn-close {
@@ -1053,6 +1054,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  -webkit-overflow-scrolling: touch; /* 加入優化手機滾動 */
 }
 
 /* Toast 提示 */
@@ -1113,6 +1115,14 @@ body {
 
 .no-results-icon {
   font-size: 2.8rem;
+}
+
+/* 頁腳基礎樣式 (原版只有 RWD 補上了基礎) */
+.app-footer {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
 }
 
 /* ==========================================================================
@@ -1491,8 +1501,7 @@ body {
   }
 
   /* 頁腳文字縮小 */
-  .app-footer p {
+  .app-footer {
     font-size: 0.78rem;
   }
 }
-
