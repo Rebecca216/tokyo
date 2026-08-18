@@ -1,0 +1,1136 @@
+/* ==========================================================================
+   東京機票與機加酒價格觀察儀表板 - 極簡舒服無漸層配色 (Flat & Comfortable Light Theme)
+   ========================================================================== */
+
+:root {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-subtle: #f1f5f9;
+  --border-color: #e2e8f0;
+  --border-strong: #cbd5e1;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  /* 舒服無漸層實色 Accent Colors */
+  --accent-crimson: #e11d48;
+  --accent-blue: #2563eb;
+  --accent-emerald: #059669;
+  --accent-amber: #d97706;
+  
+  --alert-bg: #ecfdf5;
+  --alert-border: #a7f3d0;
+  --alert-text: #065f46;
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
+  
+  --transition-fast: 0.15s ease-in-out;
+}
+
+/* Reset & Basic Box Model */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* 移除漸層背景流光 */
+.ambient-glow {
+  display: none;
+}
+
+/* App 容器與乾淨平面卡片 */
+.app-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-glass {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 頁頭 Header - 舒服純白實色 */
+.app-header {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #eff6ff;
+  color: var(--accent-blue);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}
+
+.main-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.main-title .highlight {
+  color: var(--accent-crimson);
+}
+
+.date-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-emerald);
+  border-radius: 50%;
+}
+
+.date-badge .divider {
+  color: var(--border-strong);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 按鈕 Design System - 實色舒服風格 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--accent-crimson);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #be123c;
+}
+
+.btn-secondary {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-outline:hover {
+  background: var(--bg-subtle);
+}
+
+.badge-pill {
+  background: #ffffff;
+  color: var(--accent-crimson);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+/* 3日出發區間每日最低價快查區塊 */
+.daily-price-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.daily-price-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.daily-price-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  position: relative;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.daily-price-card:hover {
+  border-color: var(--accent-blue);
+  box-shadow: var(--shadow-sm);
+}
+
+.daily-price-card.active-day {
+  border: 2px solid var(--accent-blue);
+  background: #f0f7ff;
+}
+
+.daily-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.primary-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--accent-blue);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.date-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.date-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.daily-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--bg-subtle);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.daily-card-body .price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.price-val {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.price-val.highlight {
+  color: var(--accent-crimson);
+  font-size: 0.95rem;
+}
+
+.daily-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tag-status {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.tag-status.hit {
+  color: var(--accent-emerald);
+}
+
+.banner-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.banner-status {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.status-icon {
+  font-size: 1.5rem;
+  background: #d1fae5;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--alert-text);
+}
+
+.banner-desc {
+  font-size: 0.88rem;
+  color: #047857;
+}
+
+/* Switch 實色切換 */
+.toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-switch input {
+  display: none;
+}
+
+.toggle-switch .slider {
+  width: 40px;
+  height: 22px;
+  background: #cbd5e1;
+  border-radius: var(--radius-pill);
+  position: relative;
+  transition: background var(--transition-fast);
+}
+
+.toggle-switch .slider::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  top: 3px;
+  left: 3px;
+  transition: transform var(--transition-fast);
+}
+
+.toggle-switch input:checked + .slider {
+  background: var(--accent-emerald);
+}
+
+.toggle-switch input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+.toggle-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 2x2 矩陣比較 (Matrix) */
+.section-header {
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.section-tip {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 16px;
+}
+
+.matrix-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.matrix-card:hover {
+  border-color: var(--accent-blue);
+  box-shadow: var(--shadow-sm);
+}
+
+.matrix-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.route-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.route-tag {
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.route-tag.khh { background: #fff7ed; color: #c2410c; }
+.route-tag.tpe { background: #eff6ff; color: #1d4ed8; }
+.route-tag.nrt { background: #faf5ff; color: #7e22ce; }
+.route-tag.hnd { background: #fdf2f8; color: #be185d; }
+
+.sub-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.matrix-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--bg-subtle);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+}
+
+.price-row .val {
+  font-weight: 700;
+}
+
+.price-highlight {
+  color: var(--accent-crimson);
+  font-size: 1rem;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--accent-blue);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: right;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+/* 工具列 Toolbar & Filter Controls */
+.toolbar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.toolbar-top, .toolbar-bottom {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 260px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.search-box input:focus {
+  border-color: var(--accent-blue);
+  background: #ffffff;
+}
+
+.btn-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.pill-group {
+  display: flex;
+  background: var(--bg-subtle);
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+}
+
+.pill-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.pill-btn.active {
+  background: var(--bg-card);
+  color: var(--accent-blue);
+  box-shadow: var(--shadow-sm);
+  font-weight: 700;
+}
+
+.custom-select {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.toggle-chip {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-chip input {
+  display: none;
+}
+
+.chip-content {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.toggle-chip input:checked + .chip-content {
+  background: var(--alert-bg);
+  border-color: var(--accent-emerald);
+  color: var(--alert-text);
+}
+
+/* 優惠卡片清單 (Deals Grid) */
+.deals-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.deals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.count-badge {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.deals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 18px;
+}
+
+/* 優惠單件卡片 Deal Card - 舒服實色白底 */
+.deal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.deal-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.deal-card.alert-hit {
+  border: 2px solid var(--accent-emerald);
+  background: #fafdfb;
+}
+
+.deal-card-badge-container {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.deal-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.badge-alert {
+  background: var(--accent-emerald);
+  color: #ffffff;
+}
+
+.badge-platform {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.deal-fav-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.deal-fav-btn.active {
+  background: #fff1f2;
+  border-color: var(--accent-crimson);
+  color: var(--accent-crimson);
+}
+
+.deal-card-media {
+  height: 170px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-subtle);
+}
+
+.deal-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-flight-banner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  gap: 6px;
+  color: var(--text-secondary);
+}
+
+.flight-route-large {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.deal-card-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.deal-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.deal-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  background: var(--bg-subtle);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+}
+
+.meta-chip.convenient {
+  background: var(--alert-bg);
+  color: var(--alert-text);
+  font-weight: 600;
+}
+
+.rating-badge {
+  background: #fffbe8;
+  color: #b45309;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+}
+
+.flight-legs {
+  background: var(--bg-subtle);
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.deal-card-footer {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.original-price {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.final-price {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent-crimson);
+}
+
+/* 圖表 Section */
+.chart-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 0.85rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.color-dot.pkg { background: #10b981; }
+.color-dot.khh { background: #f97316; }
+.color-dot.tpe { background: #3b82f6; }
+
+.chart-wrapper {
+  height: 300px;
+  width: 100%;
+  position: relative;
+}
+
+#priceTrendCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Modal 彈窗與 Drawer 抽屜 */
+.modal-overlay, .drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.hidden, .drawer-overlay.hidden {
+  display: none;
+}
+
+.modal-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 540px;
+  padding: 28px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+
+.modal-large {
+  max-width: 760px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.btn-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-header-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.modal-icon {
+  font-size: 1.6rem;
+}
+
+.alert-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-group input[type="number"], .form-group input[type="text"] {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 9px 12px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.range-inputs input {
+  flex: 1;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.form-divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 6px 0;
+}
+
+.range-with-val {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.range-with-val input[type="range"] {
+  flex: 1;
+}
+
+.val-badge {
+  background: #fffbe8;
+  color: #b45309;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* 抽屜 Drawer */
+.drawer-content {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  border-left: 1px solid var(--border-color);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: var(--shadow-lg);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawer-body {
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Toast 提示 */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 360px;
+}
+
+.toast-card {
+  background: #ffffff;
+  border: 1px solid var(--accent-emerald);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--text-primary);
+}
+
+.toast-title {
+  font-size: 0.92rem;
+  color: var(--accent-emerald);
+  font-weight: 700;
+}
+
+.toast-message {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+/* 無搜尋結果 */
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  gap: 12px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.no-results-icon {
+  font-size: 2.8rem;
+}
+
+/* 響應式 Breakpoints */
+@media (max-width: 768px) {
+  .app-layout {
+    padding: 14px;
+  }
+  .main-title {
+    font-size: 1.35rem;
+  }
+  .deals-grid {
+    grid-template-columns: 1fr;
+  }
+  .toolbar-top, .toolbar-bottom {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-box {
+    width: 100%;
+  }
+}
