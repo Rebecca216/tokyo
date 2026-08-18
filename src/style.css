@@ -1115,22 +1115,384 @@ body {
   font-size: 2.8rem;
 }
 
-/* 響應式 Breakpoints */
+/* ==========================================================================
+   響應式設計 (Responsive Web Design) - 三段式 Breakpoints
+   ========================================================================== */
+
+/* ---- Tablet (≤ 1024px) ---- */
+@media (max-width: 1024px) {
+  .app-layout {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .header-actions .btn {
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
+  }
+
+  .main-title {
+    font-size: 1.55rem;
+  }
+
+  .matrix-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .deals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .daily-price-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .chart-wrapper {
+    height: 260px;
+  }
+
+  .toolbar-top {
+    flex-wrap: wrap;
+  }
+
+  .toolbar-bottom {
+    flex-wrap: wrap;
+  }
+
+  .banner-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+/* ---- Mobile (≤ 768px) ---- */
 @media (max-width: 768px) {
   .app-layout {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  /* Header */
+  .app-header {
+    padding: 16px;
+    border-radius: var(--radius-md);
+  }
+
+  .brand-badge {
+    font-size: 0.75rem;
+  }
+
+  .main-title {
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .date-badge {
+    font-size: 0.82rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .date-badge .divider {
+    display: none;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .header-actions .btn {
+    width: 100%;
+  }
+
+  /* Alert Banner */
+  .alert-banner {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+  }
+
+  .banner-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .banner-status {
+    gap: 10px;
+  }
+
+  .status-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+  }
+
+  .banner-title {
+    font-size: 0.95rem;
+  }
+
+  .banner-desc {
+    font-size: 0.82rem;
+  }
+
+  /* 3日低價卡片 */
+  .daily-price-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .daily-price-card {
     padding: 14px;
   }
-  .main-title {
-    font-size: 1.35rem;
+
+  /* 2x2 矩陣 */
+  .matrix-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
-  .deals-grid {
-    grid-template-columns: 1fr;
+
+  .matrix-card {
+    padding: 14px;
   }
-  .toolbar-top, .toolbar-bottom {
+
+  .route-info {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .route-tag {
+    font-size: 0.72rem;
+  }
+
+  /* 篩選工具列 */
+  .toolbar-section {
+    padding: 14px;
+    border-radius: var(--radius-md);
+    gap: 12px;
+  }
+
+  .toolbar-top,
+  .toolbar-bottom {
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
   }
+
   .search-box {
     width: 100%;
   }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .pill-group {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .pill-btn {
+    flex: 1;
+    text-align: center;
+    padding: 6px 8px;
+    font-size: 0.78rem;
+  }
+
+  .custom-select {
+    width: 100%;
+  }
+
+  .toggle-chip .chip-content {
+    font-size: 0.8rem;
+  }
+
+  /* 優惠卡片 */
+  .deals-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .deals-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .deal-card-media {
+    height: 150px;
+  }
+
+  .deal-card-body {
+    padding: 14px;
+  }
+
+  .deal-title {
+    font-size: 0.95rem;
+  }
+
+  .deal-card-footer {
+    padding: 12px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .deal-card-footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .final-price {
+    font-size: 1.15rem;
+  }
+
+  /* 趨勢圖表 */
+  .chart-section {
+    padding: 14px;
+    border-radius: var(--radius-md);
+  }
+
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .chart-legend {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .chart-wrapper {
+    height: 220px;
+  }
+
+  /* Modal 彈窗 */
+  .modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .modal-card {
+    max-width: 100%;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    padding: 20px 16px;
+    margin-top: auto;
+  }
+
+  .modal-large {
+    max-height: 92vh;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
+  /* Drawer 抽屜 */
+  .drawer-content {
+    max-width: 100%;
+    padding: 16px;
+    left: 0;
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    top: auto;
+    height: 75vh;
+  }
+
+  /* Toast */
+  .toast-container {
+    right: 12px;
+    left: 12px;
+    max-width: 100%;
+    bottom: 16px;
+  }
+
+  .toast-card {
+    padding: 12px 14px;
+  }
+
+  /* Section 標題 */
+  .section-title {
+    font-size: 1rem;
+  }
 }
+
+/* ---- Small Mobile (≤ 480px) ---- */
+@media (max-width: 480px) {
+  .app-layout {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .main-title {
+    font-size: 1.1rem;
+  }
+
+  /* 2x2 矩陣在小螢幕改為單欄 */
+  .matrix-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .matrix-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* 3日低價卡片保持單欄 */
+  .daily-price-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 飯店照片縮短 */
+  .deal-card-media {
+    height: 130px;
+  }
+
+  /* 圖表進一步縮短 */
+  .chart-wrapper {
+    height: 180px;
+  }
+
+  /* Header actions 縮小字 */
+  .header-actions .btn {
+    font-size: 0.82rem;
+    padding: 8px 12px;
+  }
+
+  /* Banner 描述隱藏在超小螢幕 */
+  .banner-desc {
+    display: none;
+  }
+
+  /* pill 按鈕換行 */
+  .pill-group {
+    flex-wrap: wrap;
+    border-radius: var(--radius-md);
+  }
+
+  .pill-btn {
+    border-radius: var(--radius-sm);
+  }
+
+  /* 頁腳文字縮小 */
+  .app-footer p {
+    font-size: 0.78rem;
+  }
+}
+
